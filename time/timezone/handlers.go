@@ -13,7 +13,7 @@ const timeAPI = "https://timeapi.io/api/TimeZone"
 
 type TimeAPIresponse struct {
 	TimeZone         string `json:timeZone xml:timeZone`
-	CurrentLocalTime string `json:currentLocalTime xml:timeZone`
+	CurrentLocalTime string `json:currentLocalTime xml:currentLocalTime`
 }
 
 func getTime(w http.ResponseWriter, r *http.Request) {
@@ -101,5 +101,5 @@ returns xml
     <CurrentLocalTime>2024-03-30T04:03:01.9616736</CurrentLocalTime>
 </TimeAPIresponse>
 
-if no timezone is provided, returns UTC
+if no timezone is provided (or invalid), returns UTC
 */

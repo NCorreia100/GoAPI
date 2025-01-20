@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/NCorreia100/GoAPI/banking/service"
 	"github.com/gorilla/mux"
 )
 
@@ -19,11 +20,18 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "hello Anh!!")
 }
 
-func getAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers := []Customer{
-		{Name: "Anh", IsFemale: true, Age: 29},
-		{Name: "Ram", IsFemale: false, Age: 24},
-	}
+type CustomerHandlers struct {
+	service service.CustomerService
+}
+
+func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Request) {
+	// customers := []Customer{
+	// 	{Name: "Anh", IsFemale: true, Age: 29},
+	// 	{Name: "Ram", IsFemale: false, Age: 24},
+	// }
+
+	customers, _ := ch.service.GetAllCustomers()
+
 	if r.Header.Get("Content-Type") == "application/xml" {
 		w.Header().Add("Content-Type", "application/xml")
 		xml.NewEncoder(w).Encode(customers)
@@ -33,8 +41,7 @@ func getAllCustomers(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
-func getCustomer (w http.ResponseWriter, r *http.Request){
+func getCustomer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	fmt.Fprint(w, vars["id"])
 }
